@@ -32,4 +32,5 @@ Intre Address si Applicant este o relatie de One-to-Many
 Intre Address si Employer este o relatie de One-to-Many
 Intre Employer si JobListing este o relatie de One-to-Many
 intre Applicant si JobLsting este o relatie de Many-to-Many (tabela applications)
+![alt text](https://github.com/Stoian256/Ddroidd_Autumn_Bootcamp/blob/main/ApplicationPortalDatabase.png)
             
