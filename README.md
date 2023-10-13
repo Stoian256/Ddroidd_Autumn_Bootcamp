@@ -1,6 +1,6 @@
-Ddroidd Autumn-Winter Dev Bootcamp 2023 - Backend
-Requirements
-https://github.com/Ddroidd-Limited/autumn-winter-bootcamp-2023-be#ddroidd-autumn-winter-dev-bootcamp-2023---backend
+Ddroidd Autumn-Winter Dev Bootcamp 2023 - Backend  
+Requirements  
+https://github.com/Ddroidd-Limited/autumn-winter-bootcamp-2023-be#ddroidd-autumn-winter-dev-bootcamp-2023---backend  
 Structura de date
 
 Address contine date despre:
