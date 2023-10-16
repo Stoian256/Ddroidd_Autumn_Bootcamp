@@ -3,12 +3,14 @@ package applicationPortal.internship.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -18,22 +20,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public UserDetailsService users() {
-
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-
-        UserDetails user = users
-                .username("user")
-                .password("password")
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+        UserDetails user = User.withUsername("user")
+                .password(passwordEncoder.encode("password"))
                 .roles("USER")
-                .authorities("READ")
                 .build();
 
-        UserDetails admin = users
-                .username("admin")
-                .password("admin")
-                .roles("ADMIN")
-                .authorities("READ", "CREATE", "DELETE")
+        UserDetails admin = User.withUsername("admin")
+                .password(passwordEncoder.encode("admin"))
+                .roles("USER", "ADMIN")
                 .build();
 
         return new InMemoryUserDetailsManager(user, admin);
@@ -47,9 +42,15 @@ public class SecurityConfig {
                 .requestMatchers("/applicationPortal/displayJobsByEmployer").permitAll()
                 .requestMatchers("/applicationPortal/displayApplicantsByEmployer").hasRole("ADMIN")
                 .requestMatchers("/applicationPortal/displayApplicantsByJobListing").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and().httpBasic(Customizer.withDefaults());
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return encoder;
     }
 
 }
